@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Ruby on rails SVG test</title>
+    <%= javascript_include_tag :defaults %>
+   <style type="text/css">
+      .halo:hover {filter: url(#Matrix);}
+      </style>
+  </head>
+  <body>
+    <p><%= link_to_remote 'Test3', :url => {:action => 'test'} %></p>
+    <p><%= link_to_remote 'Test2', :url => {:action => 'tust'} %></p>
+    <p><%= link_to_remote 'Hide something', :url => {:action => 'hide'} %></p>
+    <p><a href="#" onclick="$('tspan2431').style.visibility = 'hidden';">Local Hide something</a></p>
+    <p><a href="#" onclick="$('tspan2431') = 'Tviede';">replace somthing</a></p>
+    <div id="tust">
+    <svg
+     xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+   version="1.0"
+   width="744.09448"
+   height="1052.3622"
+   id="svg2">
+             
+   <defs
+     id="defs4" />
+   <filter id="Matrix" >
+                     
+                                       <feColorMatrix type="matrix" in="SourceGraphic"
+                                       
+                                                              values="0.5 0 0 0 0.5
+                                                            
+                                                                                           0 0.5 1 0 0.5
+                                                                                         
+                                                                                                                        0 0 0.5 0 0.5
+                                                                                                                      
+                                                                                                                                                     0 0 0 1 0"/>
+                                                                                                                                                 
+                                                                                                                                                       </filter>
+                                                                                                                                                                     <g class="halo">
+   <g
+     id="layer1">
+     <rect
+        width="380"
+          height="191.42857"
+            x="182.85715"
+              y="218.07646"
+                id="rect2383"
+                  style="fill:#0000ff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+            </g>
+            <text
+              x="159.24463"
+              y="420.33243"
+              id="text2429"
+              xml:space="preserve"
+              style="font-size:103.79447937px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#e6e6e6;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Tahoma;-inkscape-font-specification:Tahoma"><tspan
+                  x="159.24463"
+                  y="420.33243"
+                  id="tspan2431">Tallak</tspan></text>
+            </g>
+
+              </svg></div>
+  </body>
+</html>

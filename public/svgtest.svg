@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744"
+   height="1052"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="pumpe.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   >
+  
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3165">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop3167" />
+      <stop
+         style="stop-color:#f4f4f4;stop-opacity:1;"
+         offset="1"
+         id="stop3169" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3157">
+      <stop
+         style="stop-color:#c2ff8b;stop-opacity:1;"
+         offset="0"
+         id="stop3159" />
+      <stop
+         style="stop-color:#53b100;stop-opacity:1;"
+         offset="1"
+         id="stop3161" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3157"
+       id="radialGradient3163"
+       cx="362.85715"
+       cy="426.64792"
+       fx="362.85715"
+       fy="426.64792"
+       r="126.21429"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3165"
+       id="radialGradient3171"
+       cx="299.39759"
+       cy="366.64789"
+       fx="299.39759"
+       fy="366.64789"
+       r="110.12133"
+       gradientTransform="matrix(1,0,0,1.1539981,0,-56.463089)"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3157"
+       id="radialGradient3179"
+       gradientUnits="userSpaceOnUse"
+       cx="362.85715"
+       cy="426.64792"
+       fx="362.85715"
+       fy="426.64792"
+       r="126.21429" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3165"
+       id="radialGradient3181"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.1539981,0,-56.463089)"
+       cx="299.39759"
+       cy="366.64789"
+       fx="299.39759"
+       fy="366.64789"
+       r="110.12133" />
+              
+		<filter id="Matrix" >
+                  <feColorMatrix type="matrix" in="SourceGraphic"
+                       values="0.9 0 0 0 0.1
+                               0 0.9 1 0 0.1
+                               0 0 0.9 0 0.1
+                               0 0 0 1 0"/>
+                </filter>
+ 		<filter id="FlashMatrix0" >
+                  <feColorMatrix type="matrix" in="SourceGraphic"
+                       values="0.7 0 0 0 0.3
+                               0 0.7 1 0 0.3
+                               0 0 0.7 0 0.3
+                               0 0 0 1 0"/>
+                </filter>                         
+ 		<filter id="FlashMatrix1" >
+                  <feColorMatrix type="matrix" in="SourceGraphic"
+                       values="0.6 0 0 0 0.4
+                               0 0.6 1 0 0.4
+                               0 0 0.6 0 0.4
+                               0 0 0 1 0"/>
+                </filter>                         
+ 		<filter id="FlashMatrix2" >
+                  <feColorMatrix type="matrix" in="SourceGraphic"
+                       values="0.5 0 0 0 0.5
+                               0 0.5 1 0 0.5
+                               0 0 0.5 0 0.5
+                               0 0 0 1 0"/>
+                </filter>                         
+ 		<filter id="FlashMatrix3" >
+                  <feColorMatrix type="matrix" in="SourceGraphic"
+                       values="0.5 0 0 0 0.5
+                               0 0.5 1 0 0.5
+                               0 0 0.5 0 0.5
+                               0 0 0 1 0"/>
+                </filter>                         
+	</defs>
+  <style type="text/css">
+            .hilite:hover {filter: url(#Matrix); enable-background: 'inherit'}
+            .flashing {filter: url(#FlashMatrix0); enable-background: 'inherit'}
+    </style>
+    <script type="text/ecmascript"><![CDATA[
+
+    var flashStep = 0;	    
+    setInterval ( "doFlashing()", 1000 );
+
+        function changecss(theClass,element,value) {
+            //Last Updated on May 21, 2008
+            //documentation for this script at
+        //http://www.shawnolson.net/a/503/altering-css-class-attributes-with-javascript.html
+         var cssRules;
+          if (document.all) {
+           cssRules = 'rules';
+          }
+         else if (document.getElementById) {
+          cssRules = 'cssRules';
+          }
+         var added = false;
+         for (var S = 0; S < document.styleSheets.length; S++){
+          for (var R = 0; R < document.styleSheets[S][cssRules].length; R++) {
+            if (document.styleSheets[S][cssRules][R].selectorText == theClass) {
+              if(document.styleSheets[S][cssRules][R].style[element]){
+              document.styleSheets[S][cssRules][R].style[element] = value;
+            added=true;
+                break;
+                }
+           }
+          }
+
+          if(!added){
+          if(document.styleSheets[S].insertRule){
+                          document.styleSheets[S].insertRule(theClass+' { '+element+': '+value+';}',document.styleSheets[S][cssRules].length);
+		                        } else if (document.styleSheets[S].addRule) {
+			                                      document.styleSheets[S].addRule(theClass,element+': '+value+';');
+					                              }
+						          }
+				             }
+		           }
+
+ 			   
+    function doFlashing ( )
+    {
+    	++flashStep;
+	flashStep = flashStep % 4;
+	changecss('flashing', 'filter', 'url(#FlashMatrix3)');
+    }
+
+      ]]></script>
+
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ececec;fill-opacity:1"
+       id="rect3173"
+       width="448.57144"
+       height="198.71429"
+       x="111.42857"
+       y="258.07648" />
+              <g transform="translate(70,0)"
+                         id="g3183" class="flashing" enable-backgrouns="new">
+                        <path
+                           style="fill:url(#radialGradient3163);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4.06206841;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+                           id="path2383"
+                           d="M 468.57143,458.07648 A 125.71429,125.71429 0 1 1 217.14286,458.07648 A 125.71429,125.71429 0 1 1 468.57143,458.07648 z"
+                           transform="matrix(0.196944,0,0,0.196944,173.97636,266.50393)" />
+                        <path
+                           style="fill:url(#radialGradient3171);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.0538025;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+                           id="path2385"
+                           d="M 409.01892,366.64789 L 299.39759,429.93779 L 189.77626,493.2277 L 189.77626,366.64788 L 189.77626,240.06808 L 299.39759,303.35799 L 409.01892,366.64789 z"
+                           transform="matrix(0.1637303,0,0,0.1637303,198.83191,296.40716)" />
+	   </g>
+               <g
+                         id="g31832" class="hilite" enable-backgrouns="new">
+                        <path
+                           style="fill:url(#radialGradient3163);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4.06206841;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+                           id="path23835"
+                           d="M 468.57143,458.07648 A 125.71429,125.71429 0 1 1 217.14286,458.07648 A 125.71429,125.71429 0 1 1 468.57143,458.07648 z"
+                           transform="matrix(0.196944,0,0,0.196944,173.97636,266.50393)" />
+                        <path
+                           style="fill:url(#radialGradient3171);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.0538025;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+                           id="path2385i5"
+                           d="M 409.01892,366.64789 L 299.39759,429.93779 L 189.77626,493.2277 L 189.77626,366.64788 L 189.77626,240.06808 L 299.39759,303.35799 L 409.01892,366.64789 z"
+                           transform="matrix(0.1637303,0,0,0.1637303,198.83191,296.40716)" />
+	   </g>
+  </g>
+
+</svg>
+

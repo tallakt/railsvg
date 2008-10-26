@@ -1,0 +1,1 @@
+page.send :record, "$('path3548').style.visibility = 'hidden';"
