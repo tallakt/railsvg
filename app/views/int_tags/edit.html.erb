@@ -1,0 +1,20 @@
+<h1>Editing int_tag</h1>
+
+<% form_for(@int_tag) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :tagname %><br />
+    <%= f.text_field :tagname %>
+  </p>
+  <p>
+    <%= f.label :value %><br />
+    <%= f.text_field :value %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @int_tag %> |
+<%= link_to 'Back', int_tags_path %>

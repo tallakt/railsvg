@@ -1,0 +1,21 @@
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   width="0"
+   height="0"
+   id="stdfilters"
+   >
+	<defs>
+		<filter id="clickable_filter" >
+			<feColorMatrix type="matrix" in="SourceGraphic" values="0.5 0 0 0 0.5   0 0.5 1 0 0.5   0 0 0.5 0 0.5    0 0 0 1 0" />
+		</filter>
+		<filter id="blink_filter" >
+			<feColorMatrix type="matrix" in="SourceGraphic" id="blink_filter_matrix" values="1 0 0 0 0   0 1 0 0  0 0 1 0 0    0 0 0 1 0" />
+		</filter>
+	</defs>
+</svg>

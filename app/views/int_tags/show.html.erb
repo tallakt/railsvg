@@ -1,0 +1,13 @@
+<p>
+  <b>Tagname:</b>
+  <%=h @int_tag.tagname %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%=h @int_tag.value %>
+</p>
+
+
+<%= link_to 'Edit', edit_int_tag_path(@int_tag) %> |
+<%= link_to 'Back', int_tags_path %>

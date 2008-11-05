@@ -1,0 +1,22 @@
+<h1>Listing int_tags</h1>
+
+<table>
+  <tr>
+    <th>Tagname</th>
+    <th>Value</th>
+  </tr>
+
+<% for int_tag in @int_tags %>
+  <tr>
+    <td><%=h int_tag.tagname %></td>
+    <td><%=h int_tag.value %></td>
+    <td><%= link_to 'Show', int_tag %></td>
+    <td><%= link_to 'Edit', edit_int_tag_path(int_tag) %></td>
+    <td><%= link_to 'Destroy', int_tag, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New int_tag', new_int_tag_path %>
