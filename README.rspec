@@ -1,0 +1,10 @@
+== RailsSVG
+
+This project is a mess.
+
+It is a proof of concept that you could use AJAX and Firefox to replace
+a traditional HMI like Wonderware Intouch or Siemens WinCC.
+
+I think I succeeded somewhat, but to use the code in production needs 
+a lot of work.
+
