@@ -5,6 +5,45 @@ module WidgetHelper
   
   @@motorsvg = nil
   
+  class SvgVisibilityAnimation 
+    def initialize block
+      @block = block
+    end
+  end
+  
+  class SvgBlinkAnimation 
+    def initialize block
+      @block = block
+    end
+  end
+  
+  class GeneralSvgWidget
+    attr_writer :svg_file_name
+    
+    def initialize
+      @animations = {}
+      @preserveattrs = {}
+      yield self
+    end
+    
+    def visibility label, &block
+      @animations[label] = VisibilityAnimation.new(block)
+    end
+
+    def invisibility label, &block
+      @animations[label] = VisibilityAnimation.new(lambda {not block})
+    end
+    
+    def preserve_attr label, attrname
+      @preserveattrs[label] = attrname
+    end
+
+    def blink label, &block
+      @animations[label] = BlinkAnimation.new(lambda {not block})
+    end
+  end
+  
+  
   def svg_read_inkscape_page(motors) 
     doc = REXML::Document.new File.new("app/views/#{controller.controller_name}/#{controller.action_name}.svg") 
     svg_remove_unnecessary_inkscape doc
@@ -22,11 +61,18 @@ module WidgetHelper
       if groups_with_labels.has_key? m.tagname
         groups_with_labels[m.tagname].each do |g|
           svg_insert_motor(m, g)
-          g.attributes['id'] = m.tagname
         end
       end
     end
     svg_add_clickable_filter defs
+    
+    # Remove all unnecessary inkscape attributes
+    REXML::XPath.each doc, 'svg//*' do |el| 
+      el.attributes.each_attribute do |attr|
+        attr.remove if attr.prefix[/./]
+      end
+    end
+
     doc
   end
   
@@ -39,13 +85,40 @@ module WidgetHelper
   end
   
   def svg_add_clickable_filter defs
+                # <filter id="ClickableFilter" >
+                  # <feColorMatrix type="matrix" in="SourceGraphic" values="1 0 0 0 0   0 1 0 0 0   0 0 01 0 0    0 0 0 1 0" />
+                # </filter>
     clickableFilter = REXML::Document.new <<-END
               <defs>
-                <filter id="ClickableFilter" >
-                  <feColorMatrix type="matrix" in="SourceGraphic" values="0.5 0 0 0 0.5   0 0.5 1 0 0.5   0 0 0.5 0 0.5    0 0 0 1 0" />
+                <filter
+                   id="ClickableFilter" x="0" y="0" width="50" height="50" >
+                  <feMorphology
+                     id="feMorphology3446"
+                     operator="dilate"
+                     radius="2"
+                     result="result1" />
+                  <feColorMatrix
+                     id="feColorMatrix3432"
+                     values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 "
+                     in="result1" />
+                  <feGaussianBlur
+                     stdDeviation="1"
+                     id="feGaussianBlur3426"
+                     result="result0" />
+                  <feMerge
+                     id="feMerge3438">
+                    <feMergeNode
+                       inkscape:collect="always"
+                       id="feMergeNode3440"
+                       in="result0" />
+                    <feMergeNode
+                       inkscape:collect="always"
+                       id="feMergeNode3444"
+                       in="SourceGraphic" />
+                  </feMerge>
                 </filter>
                 <filter id="BlinkFilter" >
-                  <feColorMatrix type="matrix" in="SourceGraphic" id="blinkfiltermatrix" values="1 0 0 0 0   0 1 0 0  0 0 1 0 0    0 0 0 1 0" />
+                  <feColorMatrix type="matrix" in="SourceGraphic" id="blinkfiltermatrix" values="0.5 0 0 0 0   0 0.5 0 0 0  0 0 0.5 0 0    0 0 0 1 0" />
                 </filter>
               </defs>
               END
@@ -54,7 +127,7 @@ module WidgetHelper
     end
   end
   
-  def svg_read_motor (motor)
+  def svg_read_motor (motor, mock_transforms)
     f = File.new('app/views/svgtest/_motor.svg')
     if not @@motorsvg or f.mtime != @@motorsvg['mtime'] or true
       @@motorsvg = {}
@@ -63,70 +136,77 @@ module WidgetHelper
       @@motorsvg['g'] = REXML::XPath.first @@motorsvg['doc'], '//g'
     end
 		g = @@motorsvg['g'].deep_clone
-      
-    el = REXML::XPath.first g, '//[@inkscape:label="error"]'
-    if motor.value[0] != 0
-      g.delete_element el
-    elsif motor.value[1] != 0 or true
-      el.attributes['class'] = [el.attributes['class'], 'blink'].compact.join ' ' 
+    
+    ['error', 'play'].each do |label|
+      label_to_class(g, 'motor_' + motor.tagname, label)
+      set_style(g, 'filter', 'none')
     end
-    g.delete_element '//[@inkscape:label="play"]' unless (motor.value[2] != 0 || Time.now.sec % 4 < 2)
-    [REXML::XPath.first g, '//tspan'].compact.each do |tspan|
+
+#    g.delete_element '//[@inkscape:label="play"]' unless (motor.value[2] != 0 || Time.now.sec % 4 < 2)
+    [REXML::XPath.first g, './/tspan'].compact.each do |tspan|
       tspan.text = motor.tagname[/\d+/]
     end
     
-    
-    # make a hash consisting of each top level group and their ids
-    toplevel = []
-    REXML::XPath.each g, 'g/g[@inkscape:label]' do |gg|
-      classname = motor.tagname + '_' + gg.attributes['inkscape:label']
-      gg.attributes['class'] = [gg.attributes['class'], classname].compact.join ' ' 
-      toplevel << {:group => gg, :classname => classname, :label => gg.attributes['inkscape:label']}
+    mock_transforms.each do |label, transform|
+      [REXML::XPath.first g, ".//g[@inkscape:label='#{label}']"].compact.each do |group|
+        group.attributes['transform'] = transform
+      end
     end
     
     # Remove all unnecessary inkscape attributes
-    REXML::XPath.each g, g.xpath + '//*' do |el| 
-      el.attributes.each_attribute do |attr|
-        attr.remove if attr.prefix[/./]
+    REXML::XPath.each g, '//*[@*]' do |el| 
+      el.attributes.to_a.each do |attr|
+        el.delete_attribute attr if attr.prefix[/./]
       end
       el.attributes['id'] = nil
     end
-    {:root => g, :toplevel => toplevel }
+    g
   end
   
   
   def svg_insert_motor(motor, container, options = {}, &block)
-    # container will be clickable - all of it
-    # container's transform is moved to a new sub group due to Firefox bug
-    # second sub group will contain motor's transform
-    # inside second group, toplevel groups are added
-    # toplevel groups are replaced without having to read original SVG file again
-    srm = svg_read_motor(motor)
-
-    g1 = REXML::Element.new 'g'
-    g1.attributes['transform'] = container.attributes['transform'] 
-    container.attributes['transform'] = nil
-    
-    g2 = REXML::Element.new 'g', g1
-    g2.attributes['transform'] = srm[:root].attributes['transform']
-
-    srm[:toplevel].each do |tt|
-      if tt[:label]
-        REXML::XPath.each container, container.xpath + "//[@inkscape:label='#{tt[:label]}']" do |el|
-          tt[:group].attributes['transform'] = el.attributes['transform']
-        end
+    transforms = {}
+    ['rotate', 'dont_rotate'].each do |label|
+      [REXML::XPath.first container, ".//g[@inkscape:label='#{label}']"].compact.each do |el|
+        transforms[label] = el.attributes['transform']
       end
-      g2.add_element tt[:group].deep_clone
     end
-    
+    motor_group = svg_read_motor(motor, transforms)
+
     while container.has_elements?
       container.delete_element container.elements[1]
     end
     
-    container.add_element g1
+    container.add_element motor_group.deep_clone
     container.text = ""
-		container.attributes['class'] = 'clickable'
-  end	
+		add_class(container, 'clickable')
+    # container.add_attribute 'transforms', transforms.to_a.flatten.join('+')
+  end
+
+  
+  def add_class(element, classname)
+    element.attributes['class'] = [element.attributes['class'], classname].compact.join ' '
+    element.attributes['id'] = element.attributes['class']
+  end
+  
+  def label_to_class(owner_element, prefix, label)
+    [XPath::first owner_element, ".//[@inkscape:label='#{label}']"].compact.each do |el|
+      add_class(el, prefix + '_' + label) 
+    end
+  end
+  
+  def set_style(element, category, value) 
+    h = {}
+    value.split(/;\s*/).collect do |style|
+      pair = style.split /\s*:\s*/
+      h[pair[0]] = pair[1] if pair.length == 2
+    end
+    h[category] = value
+    tmp = h.to_a.collect do |pair|
+      pair.join ':'
+    end
+    tmp.join ';'
+  end
 
   def svg_insert_motor_defs(defs, options = {}, &block)
     svg = Document.new File.new('app/views/svgtest/_motor.svg') 

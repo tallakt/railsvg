@@ -4,3 +4,5 @@ tmp/**/*
 config/database.yml
 db/*.sqlite3
 
+unity
+tmp/bilde_og_symboler

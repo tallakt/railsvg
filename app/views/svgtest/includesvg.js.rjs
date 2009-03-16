@@ -1,27 +1,25 @@
-
-page << <<-EOF
-          function parseSVG(str) {
-              str = '<g xmlns:dc="http://purl.org/dc/elements/1.1/"   xmlns:cc="http://creativecommons.org/ns#"   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   xmlns:xlink="http://www.w3.org/1999/xlink"   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">' + str + '</g>';
-              return new DOMParser().parseFromString(str, "text/xml").childNodes[0];
-          }
           
-          function updateSvg(element, value) {
-            if (element != null) {
-              while (element.childNodes.length > 0) {
-                element.removeChild(element.lastChild)
-              }
-              element.appendChild(parseSVG(value));
-            }
-          }
-          EOF
-
-          
-@motors.each do |m|
-  svg_read_motor(m)[:toplevel].each  do |toplevel|
-    page.select('.' + toplevel[:classname]).each do |element|
-      page << %Q!updateSvg(#{element.to_json},  '#{escape_javascript(toplevel[:group].to_s)}');!
+@motors.each do |motor|
+  page.select(".motor_#{motor.tagname}_play").each do |element|
+    if motor.value[2] != 0 || Time.now.sec % 4 < 2
+      page.hide(element)
+    else
+      page.show(element)
     end
   end
+  
+  page.select(".motor_#{motor.tagname}_error").each do |element|
+    # Red backround for acked errors
+    if motor.value[1] == 0 
+      page.hide(element)
+    else
+      page.show(element)
+    end
+    
+    # Blinking for unacked errors
+    filter = ((motor.value[0] == 0) ? '' : 'url(#BlinkFilter)')
+    page.element.writeAttribute(element, {'filter' => filter})
+  end
 end
-
+  
 
